@@ -1,0 +1,25 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Update": "false"
+  },
+  "Ports": [
+    {
+      "hostPort": "80",
+      "ContainerPort": "8080"
+    }
+  ],
+  "Volumes": [
+    {
+      "HostDirectory": "/data/logs",
+      "ContainerDirectory": "/data/logs"
+    }
+  ],
+  "mountPoints": [
+    {
+      "sourceVolume": "nginx-proxy-conf",
+      "containerPath": "/etc/nginx/conf.d",
+      "readOnly": true
+    }
+  ]
+}

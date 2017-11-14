@@ -1,0 +1,28 @@
+FROM ubuntu:16.04
+MAINTAINER Alex Jeon <sv5060@gmail.com>
+
+RUN apt-get update && \
+    apt-get -y upgrade
+
+RUN apt-get install -y libssl-dev \
+    sqlite3 \
+    libevent-dev \
+    libpq-dev \
+    mysql-client \
+    libmysqlclient-dev \
+    libhiredis-dev \
+    build-essential \
+    wget \
+    vim \
+    git
+
+RUN cd ~ && \
+    wget http://turnserver.open-sys.org/downloads/v4.5.0.6/turnserver-4.5.0.6.tar.gz && \
+    tar xfvz turnserver-4.5.0.6.tar.gz && \
+    cd  turnserver-4.5.0.6 && \
+    ./configure && \
+    make && \
+    make install && \
+    cp bin/turnserver /turnserver.sh
+
+CMD ["/bin/bash", "/turnserver.sh"]

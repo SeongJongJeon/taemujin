@@ -1,0 +1,71 @@
+import java.nio.file.Files
+
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$project.ext.springBootVersion")
+        //릴리즈 날짜를 보고 springloaded 보다 이전날짜에 릴리즈된 spring boot 버젼을 사용할 것
+        classpath("org.springframework:springloaded:1.2.8.RELEASE")
+    }
+}
+
+subprojects {
+    if (!it.name.startsWith('web-common')) {
+        apply plugin: 'org.springframework.boot'
+
+        dependencies {
+            def springSwaggerVersion = '2.7.0'
+            compile project(':model')
+
+            testCompile("org.springframework.boot:spring-boot-starter-test")
+            compile("org.springframework.boot:spring-boot-starter-web")
+            compile("io.springfox:springfox-swagger2:$springSwaggerVersion")
+            compile("io.springfox:springfox-swagger-ui:$springSwaggerVersion")
+        }
+
+        def archiveFileName = "app.jar"
+
+        tasks['build'].doLast({
+            def files = fileTree("${project.getRootDir().path}/document/beanstalk/").matching {
+                exclude "document.txt"
+            }
+
+            files.each { file ->
+                def path = file.getPath().substring(0, file.getPath().lastIndexOf("/") + 1)
+                def splitPath = path.split('/document/beanstalk/');
+                if (splitPath.length == 2) {
+                    def dir = new File("${buildDir}/libs/${splitPath[1]}");
+                    if (!dir.exists()) {
+                        dir.mkdirs();
+                    }
+                    Files.copy(new FileInputStream(file.getPath()), new FileOutputStream("${buildDir}/libs/${splitPath[1]}${file.getName()}"))
+                } else {
+                    Files.copy(new FileInputStream(file.getPath()), new FileOutputStream("${buildDir}/libs/${file.getName()}"))
+                }
+            }
+            def archiveFile = new File("${buildDir}/libs/${project.jar.baseName}-${version}.jar")
+            archiveFile.renameTo(new File("${buildDir}/libs/${archiveFileName}"))
+
+            println("======================================================")
+            println("finally - ${project.projectDir.getName()}")
+            println("======================================================")
+        })
+
+        //task name, zip type
+        task zipCompression(type: Zip) {
+            destinationDir new File("${buildDir}/libs/")
+            archiveName 'app.zip'
+            from "${buildDir}/libs/"
+            include "Dockerfile"
+            include "Dockerrun.aws.json"
+            include ".ebextensions/**"
+            include "proxy/**"
+            include "${archiveFileName}"
+        }
+        build.finalizedBy(zipCompression);
+    }
+
+    dependencies {
+        compile("org.springframework.boot:spring-boot-starter-freemarker")
+    }
+}

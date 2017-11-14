@@ -1,0 +1,2 @@
+1. Spring Reload 사용
+- Gradle Tasks > application > bootRun 으로 실행 후 재컴파일

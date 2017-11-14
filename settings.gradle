@@ -1,0 +1,9 @@
+rootProject.name = 'taemujin'
+include 'web'
+include 'web:web-common'
+findProject(':web:web-common')?.name = 'web-common'
+include 'web:web-top'
+findProject(':web:web-top')?.name = 'web-top'
+include 'core'
+include 'model'
+

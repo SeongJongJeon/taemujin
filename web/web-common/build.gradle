@@ -1,0 +1,19 @@
+jar {
+    baseName = 'web-common'
+}
+
+dependencies {
+    compile project(':core')
+
+    compile "org.springframework.boot:spring-boot-starter-web"
+
+    compile "org.apache.commons:commons-lang3:3.4"
+
+    /* javax */
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+
+    /* image rotate */
+    compile 'com.drewnoakes:metadata-extractor:2.10.1'
+    /* image scaling*/
+    compile 'com.mortennobel:java-image-scaling:0.8.6'
+}

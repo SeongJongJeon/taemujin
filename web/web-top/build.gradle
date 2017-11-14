@@ -1,0 +1,15 @@
+jar {
+    baseName = 'top'
+}
+
+dependencies {
+    compile project(':web:web-common')
+    compile("org.springframework.boot:spring-boot-starter-freemarker")
+
+    //웹소켓 관련 설정
+    compile("io.projectreactor:reactor-net:2.0.8.RELEASE")
+    compile("io.netty:netty-all:4.1.7.Final")
+
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile("org.springframework.boot:spring-boot-starter-activemq")
+}

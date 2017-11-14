@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <typeAlias type="com.taemujin.model.domain.User" alias="User"/>
+    </typeAliases>
+
+    <!--<typeHandlers>
+        <typeHandler handler="com.neptune.model.handler.StringEnumHandler"
+                     javaType="com.neptune.core.enumtype.user.SnsEnum$Type"/>
+    </typeHandlers>-->
+</configuration>
