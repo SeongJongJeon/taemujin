@@ -1,2 +1,3 @@
 # taemujin
-Written in java webrtc example
+
+Example of webrtc written in Java
